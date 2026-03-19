@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "TimelineStop": {
+      "title": "TimelineStop",
+      "description": "A single memory in the birthday timeline.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "The unique identifier for the stop."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the memory."
+        },
+        "image": {
+          "type": "string",
+          "description": "The base64 encoded image or URL."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the memory."
+        },
+        "isMilestone": {
+          "type": "boolean",
+          "description": "Whether this memory is a milestone."
+        },
+        "order": {
+          "type": "number",
+          "description": "The display order of the memory."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The last update timestamp."
+        }
+      },
+      "required": ["id", "title", "image", "description", "order"]
+    }
+  },
+  "firestore": {
+    "timeline": {
+      "schema": "TimelineStop",
+      "description": "Collection of timeline memories."
+    }
+  }
+}

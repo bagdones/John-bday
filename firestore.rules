@@ -1,0 +1,63 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: timeline
+    // Document ID: auto-generated or numeric ID
+    // Fields:
+    //   - id: number (required) - unique identifier
+    //   - title: string (required, max 100 chars)
+    //   - image: string (required, max 2MB base64)
+    //   - description: string (required, max 2000 chars)
+    //   - isMilestone: boolean (optional)
+    //   - order: number (required)
+    //   - updatedAt: timestamp (optional)
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "juryhyasat59@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidTimelineStop(data) {
+      return data.keys().hasAll(['id', 'title', 'image', 'description', 'order']) &&
+             data.id is number &&
+             data.title is string && data.title.size() <= 100 &&
+             data.image is string && data.image.size() <= 2097152 && // 2MB limit
+             data.description is string && data.description.size() <= 2000 &&
+             data.order is number &&
+             (!('isMilestone' in data) || data.isMilestone is bool);
+    }
+
+    match /timeline/{stopId} {
+      // Allow public read for the birthday person to see the timeline
+      allow read: if true;
+      
+      // Only the creator (admin) can modify the timeline
+      allow create: if isAdmin() && isValidTimelineStop(request.resource.data);
+      allow update: if isAdmin() && isValidTimelineStop(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if request.auth.uid == userId || isAdmin();
+      allow write: if isAdmin();
+    }
+    
+    match /_connection_test_/{testId} {
+      allow read: if true;
+    }
+  }
+}
