@@ -1,20 +1,57 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Birthday Timeline & Memory Slideshow
 
-# Run and deploy your AI Studio app
+A beautiful, vintage-inspired interactive timeline and slideshow built for Jury's birthday. This application allows you to create, edit, and share a chronological journey of memories.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/06cc177c-3d05-4e09-bdbd-b95987b058e1
+- **Interactive Timeline:** Scroll through a beautifully styled vertical timeline of memories.
+- **Slideshow Mode:** View memories in a full-screen, immersive slideshow with smooth transitions.
+- **Admin Controls:**
+  - **Add/Delete Memories:** Manage the timeline content directly in the app.
+  - **Edit Text:** Update titles and descriptions on the fly.
+  - **Photo Uploads:** Replace placeholder images with your own photos.
+- **Cloud Sync:** Powered by Firebase Firestore for real-time data persistence.
+- **Export Options:** Download the entire timeline as a high-quality image or download all photos as a ZIP archive.
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
+- **Frontend:** React 19, Vite, TypeScript
+- **Styling:** Tailwind CSS
+- **Animations:** Motion (formerly Framer Motion)
+- **Icons:** Lucide React
+- **Backend:** Firebase (Authentication & Firestore)
+- **Utilities:** html2canvas, JSZip, file-saver
 
+## Setup & Deployment
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repo-url>
+   cd <repo-name>
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Variables:**
+   Create a `.env` file in the root directory and add your Firebase configuration:
+   ```env
+   GOOGLE_MAPS_PLATFORM_KEY=your_key_here
+   # Firebase config is handled via firebase-applet-config.json in this environment
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Build for production:**
+   ```bash
+   npm run build
+   ```
+
+## License
+
+Apache-2.0
